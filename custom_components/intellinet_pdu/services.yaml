@@ -1,0 +1,17 @@
+restart_outlet:
+  name: Restart outlet
+  description: Power-cycles a single outlet on the PDU.
+  fields:
+    outlet:
+      name: Outlet
+      description: Outlet number from 1 to 8.
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 8
+          mode: box
+
+restart_all_offline:
+  name: Restart all offline outlets
+  description: Power-cycles all outlets currently reported as not on.

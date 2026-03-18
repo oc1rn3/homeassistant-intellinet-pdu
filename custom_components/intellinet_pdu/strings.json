@@ -1,0 +1,38 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add Intellinet Smart PDU",
+        "description": "Connect to an Intellinet 163682 Smart PDU.",
+        "data": {
+          "host": "Host or IP address",
+          "username": "Username",
+          "password": "Password",
+          "use_https": "Use HTTPS",
+          "verify_ssl": "Verify SSL certificate",
+          "nominal_voltage": "Fallback nominal voltage"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the PDU.",
+      "invalid_auth": "Authentication failed.",
+      "invalid_response": "The device responded, but the page format was not recognized.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This PDU is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Intellinet PDU options",
+        "data": {
+          "scan_interval": "Update interval in seconds",
+          "nominal_voltage": "Fallback nominal voltage"
+        }
+      }
+    }
+  }
+}
