@@ -1,0 +1,10 @@
+{
+    "name": "Intellinet PDU",
+    "homeassistant": "2024.10.0",
+    "domains": [
+        "sensor"
+    ],
+    "iot_class": "local Polling",
+    "render_readme": false,
+    "zip_release": false,
+}
