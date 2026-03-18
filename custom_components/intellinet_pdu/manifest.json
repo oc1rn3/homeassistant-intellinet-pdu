@@ -1,8 +1,11 @@
 {
   "domain": "intellinet_pdu",
   "name": "Intellinet Smart PDU",
-  "version": "4.2.0",
+  "version": "4.2.2",
+  "documentation": "https://intellinetnetwork.de/products/intellinet-de-19-8-fach-ip-steckdosenleiste-smart-pdu-mit-c13-kaltgeratesteckdosen-163682",
   "config_flow": true,
   "iot_class": "local_polling",
-  "requirements": []
+  "loggers": ["custom_components.intellinet_pdu"],
+  "requirements": [],
+  "codeowners": []
 }
