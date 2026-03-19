@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from homeassistant.components.switch import SwitchEntity
 
-from .const import DOMAIN
+from .const import CONF_OPTIMISTIC_SWITCHING, DEFAULT_OPTIMISTIC_SWITCHING, DOMAIN
 from .entity import IntellinetPDUEntity
 
 
@@ -28,7 +28,15 @@ class IntellinetPDUOutletSwitch(IntellinetPDUEntity, SwitchEntity):
         return self.outlet_label(self._idx)
 
     @property
+    def _optimistic_enabled(self) -> bool:
+        return self._entry.options.get(CONF_OPTIMISTIC_SWITCHING, DEFAULT_OPTIMISTIC_SWITCHING)
+
+    @property
     def is_on(self):
+        if self._optimistic_enabled:
+            optimistic = self.coordinator.optimistic_states.get(self._idx)
+            if optimistic is not None:
+                return optimistic == "on"
         outlets = self.coordinator.data.get("outlets", [])
         return len(outlets) > self._idx and outlets[self._idx] == "on"
 
@@ -44,12 +52,20 @@ class IntellinetPDUOutletSwitch(IntellinetPDUEntity, SwitchEntity):
             attrs["configured_name"] = getattr(cfg, "name", "") or None
             attrs["turn_on_delay_s"] = cfg.turn_on_delay
             attrs["turn_off_delay_s"] = cfg.turn_off_delay
+        if self._optimistic_enabled and self._idx in self.coordinator.optimistic_states:
+            attrs["optimistic_state"] = self.coordinator.optimistic_states[self._idx]
         return attrs
 
     async def async_turn_on(self, **kwargs):
+        if self._optimistic_enabled:
+            self.coordinator.optimistic_states[self._idx] = "on"
+            self.async_write_ha_state()
         await self.coordinator.api.set_outlet_state(self._idx + 1, True)
         await self.coordinator.async_request_refresh()
 
     async def async_turn_off(self, **kwargs):
+        if self._optimistic_enabled:
+            self.coordinator.optimistic_states[self._idx] = "off"
+            self.async_write_ha_state()
         await self.coordinator.api.set_outlet_state(self._idx + 1, False)
         await self.coordinator.async_request_refresh()

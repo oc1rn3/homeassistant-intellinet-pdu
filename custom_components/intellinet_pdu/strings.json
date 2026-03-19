@@ -10,7 +10,9 @@
           "password": "Password",
           "use_https": "Use HTTPS",
           "verify_ssl": "Verify SSL certificate",
-          "nominal_voltage": "Fallback nominal voltage"
+          "nominal_voltage": "Fallback nominal voltage",
+          "scan_interval": "Update interval in seconds",
+          "optimistic_switching": "Optimistic switching"
         }
       }
     },
@@ -28,9 +30,16 @@
     "step": {
       "init": {
         "title": "Intellinet PDU options",
+        "description": "Update connection settings and behavior.",
         "data": {
+          "host": "Host or IP address",
+          "username": "Username",
+          "password": "Password",
+          "use_https": "Use HTTPS",
+          "verify_ssl": "Verify SSL certificate",
+          "nominal_voltage": "Fallback nominal voltage",
           "scan_interval": "Update interval in seconds",
-          "nominal_voltage": "Fallback nominal voltage"
+          "optimistic_switching": "Optimistic switching"
         }
       }
     }

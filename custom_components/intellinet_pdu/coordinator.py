@@ -17,6 +17,7 @@ class IntellinetPDUCoordinator(DataUpdateCoordinator[dict]):
     def __init__(self, hass: HomeAssistant, entry: ConfigEntry, api: IntellinetPDUApi) -> None:
         self.entry = entry
         self.api = api
+        self.optimistic_states: dict[int, str] = {}
         interval = entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
         super().__init__(
             hass,
@@ -34,6 +35,11 @@ class IntellinetPDUCoordinator(DataUpdateCoordinator[dict]):
             if not self.api.outlet_config:
                 await self.api.fetch_outlet_config()
             data["outlet_config"] = self.api.outlet_config
+            # Clear optimistic overrides once the real device state matches.
+            for idx, state in list(self.optimistic_states.items()):
+                outlets = data.get("outlets", [])
+                if idx < len(outlets) and outlets[idx] == state:
+                    self.optimistic_states.pop(idx, None)
             return data
         except IntellinetPDUError as err:
             raise UpdateFailed(str(err)) from err
